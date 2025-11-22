@@ -1206,6 +1206,7 @@ int fib6_add(struct fib6_node *root, struct fib6_info *rt,
 {
 	struct fib6_table *table = rt->fib6_table;
 	struct fib6_node *fn, *pn = NULL;
+	const struct net_device *dev;
 	int err = -ENOMEM;
 	int allow_create = 1;
 	int replace_required = 0;
@@ -1344,10 +1345,11 @@ out:
 #endif
 		goto failure;
 	}
-	if (!err && strstr(rt->dst.dev->name, "rmnet_data"))
+	dev = rt->fib6_nh.nh_dev;
+	if (!err && strstr(dev->name, "rmnet_data"))
 		net_log("fib6_add(): %s : Prefix: %pI6/%u, GW: %pI6, table: %u, proto: %u\n",
-			rt->dst.dev->name, &rt->rt6i_dst.addr, rt->rt6i_dst.plen, &rt->rt6i_gateway,
-			rt->rt6i_table->tb6_id, rt->rt6i_protocol);
+			dev->name, &rt->fib6_dst.addr, rt->fib6_dst.plen, &rt->fib6_nh.nh_gw,
+			rt->fib6_table->tb6_id, rt->fib6_protocol);
 	return err;
 
 failure:
