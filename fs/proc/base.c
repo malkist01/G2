@@ -1106,7 +1106,8 @@ err_unlock:
 	if (!err && oom_adj >= 700) {
 		if (!strcmp(task_comm, "id.GoogleCamera") ||
 		    !strcmp(task_comm, "musical.ly") ||
-		    !strcmp(task_comm, "tiktok")) {
+		    !strcmp(task_comm, "tiktok") ||
+		    !strcmp(task_comm, "shopee")) {
 			struct task_kill_info *kinfo;
 
 			kinfo = kmalloc(sizeof(*kinfo), GFP_KERNEL);
