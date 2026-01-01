@@ -31,9 +31,6 @@
 #include <linux/ima.h>
 #include <linux/dnotify.h>
 #include <linux/compat.h>
-#ifdef CONFIG_KSU_SUSFS
-#include <linux/susfs_def.h>
-#endif
 
 #include "internal.h"
 
@@ -361,6 +358,12 @@ SYSCALL_DEFINE4(fallocate, int, fd, int, mode, loff_t, offset, loff_t, len)
 	return error;
 }
 
+#ifdef CONFIG_KSU
+__attribute__((hot)) 
+extern int ksu_handle_faccessat(int *dfd, const char __user **filename_user,
+				int *mode, int *flags);
+#endif
+
 /*
  * access() needs to use the real uid/gid, not the effective uid/gid.
  * We do this by temporarily clearing all FS-related capabilities and
@@ -380,17 +383,8 @@ SYSCALL_DEFINE3(faccessat, int, dfd, const char __user *, filename, int, mode)
 	struct vfsmount *mnt;
 	int res;
 	unsigned int lookup_flags = LOOKUP_FOLLOW;
-
 #ifdef CONFIG_KSU
-    if (likely(susfs_is_current_proc_umounted())) {
-        goto orig_flow;
-    }
-
-    if (unlikely(__ksu_is_allow_uid_for_current(current_uid().val))) {
-        ksu_handle_faccessat(&dfd, &filename, &mode, NULL);
-    }
-
-orig_flow:
+	ksu_handle_faccessat(&dfd, &filename, &mode, NULL);
 #endif
 	if (mode & ~S_IRWXO)	/* where's F_OK, X_OK, W_OK, R_OK? */
 		return -EINVAL;
