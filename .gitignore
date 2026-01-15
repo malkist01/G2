@@ -129,7 +129,6 @@ kernel/configs/android-*.cfg
 #
 Android.bp
 
-build.sh
-regen.sh
+AnyKernel3
 out
-a52q*.zip
+*.zip
