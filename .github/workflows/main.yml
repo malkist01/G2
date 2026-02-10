@@ -1,0 +1,19 @@
+name: ginkgo
+on:
+  workflow_dispatch:
+          
+env:
+  TZ: Asia/Jakarta
+
+jobs:
+  kernelbuild:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Creating Env!
+      uses: actions/checkout@v2
+          
+    - name: Building Kernel..
+      run: |
+          chmod +x kernel.sh && bash kernel.sh
+      shell: bash
