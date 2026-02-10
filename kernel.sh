@@ -10,7 +10,7 @@ exec > >(tee -a build.log) 2>&1
 # ============================
 PHONE="ginkgo"
 DEFCONFIG="vendor/ginkgo_defconfig"
-CLANG="Neutron Clang 19"
+CLANG="WeebX Clang 19"
 ZIPNAME="Erika-$(date '+%Y%m%d-%H%M').zip"
 BOT_TOKEN="7868194496:AAGY7WwRRbeCOPYOnczoCPh2psC43Q0F3JI"
 CHAT_ID="-1002287610863"
@@ -44,9 +44,8 @@ reset="\033[0m"
 
 function install_dependencies() {
     echo -e "${cyan}==> Instalasi dependensi...${reset}"
-    sudo apt update
-    sudo apt install -y bc cpio flex bison aptitude git python-is-python3 tar aria2 perl wget curl lz4 libssl-dev device-tree-compiler
-    sudo apt install -y zstd
+    sudo apt-get update -qq
+    sudo apt-get install -y --no-install-recommends python3-pip git zip unzip gcc g++ make ninja-build file bc bison flex libfl-dev libssl-dev libelf-dev wget build-essential python3-dev python3-setuptools rsync ccache llvm-dev libncurses6 libfdt-dev binwalk
 }
 
 function clang() {
@@ -59,11 +58,11 @@ echo -e "\n$red[!] clang Dir Not Found!!!\033[0m \n"
 sleep 2
 echo -e "$green[+] Wait.. Cloning clang...\033[0m \n"
 sleep 2
-wget "$(curl -s https://raw.githubusercontent.com/ZyCromerZ/Clang/main/Clang-main-link.txt)" -O "zyc-clang.tar.gz"
+wget "$(curl -s https://raw.githubusercontent.com/XSans0/WeebX-Clang/main/release/19.x)" -O "WeebX-Clang.tar.gz"
     rm -rf $COMPILERDIR 
     mkdir $COMPILERDIR 
-    tar -xvf zyc-clang.tar.gz -C $COMPILERDIR
-    rm -rf zyc-clang.tar.gz
+    tar -xvf WeebX-Clang.tar.gz -C $COMPILERDIR
+    rm -rf WeebX-Clang.tar.gz
 sleep 1
 echo
 echo -e "\n$green[!] Lets's Build UwU...\033[0m \n"
