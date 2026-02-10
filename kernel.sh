@@ -10,11 +10,11 @@ exec > >(tee -a build.log) 2>&1
 # ============================
 PHONE="ginkgo"
 DEFCONFIG="vendor/ginkgo_defconfig"
-CLANG="WeebX Clang 19"
+CLANG="Aosp Clang 21"
 ZIPNAME="Erika-$(date '+%Y%m%d-%H%M').zip"
 BOT_TOKEN="7868194496:AAGY7WwRRbeCOPYOnczoCPh2psC43Q0F3JI"
 CHAT_ID="-1002287610863"
-COMPILERDIR="$(pwd)/../zyc-clang"
+COMPILERDIR="$(pwd)/../aosp-clang"
 export KBUILD_BUILD_USER="malkist"
 export KBUILD_BUILD_HOST="android"
 
@@ -58,11 +58,11 @@ echo -e "\n$red[!] clang Dir Not Found!!!\033[0m \n"
 sleep 2
 echo -e "$green[+] Wait.. Cloning clang...\033[0m \n"
 sleep 2
-wget "$(curl -s https://raw.githubusercontent.com/XSans0/WeebX-Clang/main/release/19.x)" -O "WeebX-Clang.tar.gz"
+wget -q https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+archive/4d2864f08ff2c290563fb903a5156e0504620bbe/clang-r563880c.tar.gz -O clang.tar.gz
     rm -rf $COMPILERDIR 
     mkdir $COMPILERDIR 
-    tar -xvf WeebX-Clang.tar.gz -C $COMPILERDIR
-    rm -rf WeebX-Clang.tar.gz
+    tar -xvf clang.tar.gz -C $COMPILERDIR
+    rm -rf clang.tar.gz
 sleep 1
 echo
 echo -e "\n$green[!] Lets's Build UwU...\033[0m \n"
